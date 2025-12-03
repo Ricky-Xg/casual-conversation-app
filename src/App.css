@@ -1,0 +1,536 @@
+/* =========================================
+   1. ベース設定 & フォント・変数定義
+   ========================================= */
+/* ↓ 日本語・韓国語・中国語のフォントを全てWebから読み込む設定に変更 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap');
+
+:root {
+  /* ...（以下、変更なし）... */  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --secondary-color: #1e293b;
+  --accent-color: #10b981;
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --text-dark: #1f2937;
+  --text-light: #64748b;
+  --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 15px -6px rgba(0, 0, 0, 0.1);
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', 'Noto Sans JP', "Hiragino Kaku Gothic ProN", sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 言語別フォント指定 */
+.font-cn { font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif !important; }
+.font-kr { font-family: "Noto Sans KR", "Malgun Gothic", sans-serif !important; }
+
+/* =========================================
+   2. アニメーション定義
+   ========================================= */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInApp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popInCard {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* =========================================
+   3. ウェルカム画面（トップページ）
+   ========================================= */
+.welcome-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3%; /* 余白を減らして画面広く使う */
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.hero-text-section {
+  flex: 0.8; /* テキストエリアの比率 */
+  max-width: 700px;
+  z-index: 10;
+  padding-left: 2rem;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.welcome-title {
+  /* タイトル文字を巨大化 */
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.1;
+  margin-bottom: 30px;
+}
+
+.title-accent {
+  color: var(--accent-color);
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.welcome-subtitle {
+  font-size: 1.5rem; /* サブタイトルも大きく */
+  color: var(--text-light);
+  margin-bottom: 50px;
+  line-height: 1.6;
+}
+
+.start-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 22px 60px; /* ボタンサイズアップ */
+  font-size: 1.5rem;  /* 文字サイズアップ */
+  border-radius: 60px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease;
+}
+
+.start-button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.5);
+}
+
+/* --- フォトギャラリー（写真エリア） --- */
+.hero-gallery-container {
+  flex: 1.2; /* 写真エリアを広めに */
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-gallery {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-img {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.2); /* 影を濃く */
+  border: 6px solid #fff; /* 枠線を太く */
+  opacity: 0.95;
+  transition: transform 0.3s;
+}
+
+.gallery-img:hover {
+  z-index: 20;
+  transform: scale(1.15) !important;
+  opacity: 1;
+}
+
+/* ★ 写真のサイズを全体的に1.5倍〜2倍へ拡大 ★ */
+.img1 { width: 220px; top: 10%; left: 5%; z-index: 2; }
+.img2 { width: 280px; top: 5%; left: 35%; z-index: 1; }
+.img3 { width: 240px; top: 15%; right: 5%; z-index: 3; }
+
+.img4 { width: 250px; top: 50%; left: 2%; z-index: 1; }
+.img5 { width: 200px; top: 45%; right: 15%; z-index: 2; }
+.img6 { width: 260px; bottom: 10%; left: 15%; z-index: 3; }
+
+.img7 { width: 220px; bottom: 5%; right: 25%; z-index: 1; }
+.img8 { width: 240px; top: 60%; left: 40%; z-index: 2; }
+.img9 { width: 200px; bottom: 20%; right: 2%; z-index: 2; }
+.img10 { width: 250px; top: 30%; right: 30%; z-index: 1; }
+
+/* 浮遊アニメーション */
+.float-slow { animation: float 7s ease-in-out infinite; }
+.float-mid  { animation: float 6s ease-in-out infinite; }
+.float-fast { animation: float 5s ease-in-out infinite; }
+
+/* 背景のBlob（水玉）も巨大化 */
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+}
+.blob-1 {
+  width: 600px; height: 600px;
+  background: rgba(99, 102, 241, 0.12);
+  top: -100px; right: -100px;
+}
+.blob-2 {
+  width: 500px; height: 500px;
+  background: rgba(16, 185, 129, 0.12);
+  bottom: -100px; left: 20%;
+}
+
+
+/* =========================================
+   4. アプリ画面（メイン機能）
+   ========================================= */
+.app-screen {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  align-items: center;
+  animation: fadeInApp 0.6s ease-out both;
+}
+
+/* --- ヘッダー --- */
+.app-header {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  padding: 1.5rem 0;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.app-header h2 {
+  margin: 0;
+  font-size: 2.8rem; /* ヘッダー文字拡大 */
+  font-weight: 800;
+  color: var(--primary-color);
+  letter-spacing: -1px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+/* 国旗ボタン */
+.lang-switcher {
+  display: flex;
+  gap: 1.2rem;
+  background: #f1f5f9;
+  padding: 0.8rem 1.5rem;
+  border-radius: 20px;
+}
+
+.lang-switcher button {
+  background: transparent;
+  border: none;
+  font-size: 2.5rem; /* 国旗サイズUP */
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.lang-switcher button:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.lang-switcher button.active-lang {
+  opacity: 1;
+  transform: scale(1.3);
+  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+}
+
+/* モードスイッチ */
+.mode-switch {
+  display: flex;
+  align-items: center;
+  transform: scale(1.1); /* スイッチ全体を少し大きく */
+}
+.switch-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+}
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 32px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cbd5e1;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 24px; width: 24px;
+  left: 4px; bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+input:checked + .slider { background-color: var(--accent-color); }
+input:checked + .slider:before { transform: translateX(28px); }
+.active-mode { color: var(--primary-color); }
+
+
+/* --- ★コンテナ幅を最大化 --- */
+.app-container {
+  width: 95%; /* 画面横幅の95%を使う */
+  max-width: 1600px; /* 最大幅を1600pxまで拡大 */
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* カテゴリボタン */
+.selection-section h3 {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 30px;
+  font-size: 1.5rem; /* 見出し拡大 */
+  letter-spacing: 0.05em;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.button-group button {
+  background-color: white;
+  color: var(--text-dark);
+  border: 1px solid #e2e8f0;
+  padding: 20px 40px; /* ボタンをかなり大きく */
+  border-radius: 60px;
+  font-size: 1.3rem;  /* ボタン文字拡大 */
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-group button:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.button-group button.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+  transform: translateY(-3px);
+}
+
+/* --- カードグリッド（文字・カード拡大） --- */
+.cards-grid {
+  display: grid;
+  /* カードの最小幅を400pxに設定し、1つ1つを大きく表示 */
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.phrase-card {
+  background-color: white;
+  border-radius: 24px;
+  padding: 3rem; /* 内側の余白をたっぷりとる */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+  transition: all 0.3s ease;
+  animation: popInCard 0.5s ease-out both;
+  position: relative;
+  overflow: hidden;
+  border-left: 8px solid var(--accent-color);
+  cursor: pointer;
+  min-height: 250px; /* カードの高さを確保 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.phrase-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-card);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+/* ★ 英語フレーズをかなり大きく ★ */
+.phrase-en {
+  font-size: 2.4rem; /* 1.8rem -> 2.4rem */
+  font-weight: 800;
+  color: var(--secondary-color);
+  line-height: 1.2;
+  margin: 0;
+  flex: 1;
+  font-family: inherit; 
+}
+
+/* 音声ボタン */
+.audio-button {
+  background-color: #f3f4f6;
+  border: none;
+  width: 56px; /* ボタンも大きく */
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 20px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.audio-button:hover {
+  background-color: #e2e8f0;
+  transform: scale(1.1);
+}
+
+/* 日本語訳 */
+.phrase-jp {
+  font-size: 1.3rem; /* 文字サイズ拡大 */
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+/* 解説部分 */
+.phrase-desc {
+  font-size: 1.1rem; /* 解説文も読みやすく */
+  color: #15803d;
+  background-color: #f0fdf4;
+  padding: 1.5rem;
+  border-radius: 16px;
+  line-height: 1.6;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+/* クイズモード */
+.phrase-card.quiz-hidden {
+  border-left-color: #cbd5e1;
+}
+.phrase-card.quiz-hidden .phrase-en {
+  color: #e2e8f0;
+}
+.blur-text {
+  filter: blur(10px);
+  opacity: 0.3;
+  user-select: none;
+}
+.tap-hint {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  color: var(--primary-color);
+  font-size: 1rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+/* プレースホルダー */
+.placeholder-container {
+  min-height: 400px; /* 高さを確保 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255,255,255,0.6);
+  border-radius: 30px;
+  border: 4px dashed #cbd5e1;
+  color: #94a3b8;
+}
+.placeholder-text { font-size: 1.5rem; font-weight: 700; }
+
+/* =========================================
+   5. スマホ対応
+   ========================================= */
+@media (max-width: 900px) {
+  .welcome-screen {
+    flex-direction: column;
+    padding: 20px;
+    height: auto;
+    min-height: 100vh;
+  }
+  .hero-text-section {
+    padding-left: 0;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 40px;
+  }
+  .welcome-title { font-size: 3rem; }
+  
+  .hero-gallery-container {
+    height: 50vh;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  /* スマホでは写真は少し控えめに（画面からはみ出ないよう） */
+  .gallery-img { width: 140px; border-width: 4px; }
+  .img1 { top: 5%; left: 5%; }
+  .img2 { top: 10%; right: 5%; }
+  
+  .app-container { width: 92%; margin-top: 20px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  
+  .phrase-en { font-size: 1.8rem; }
+  .phrase-card { padding: 2rem; }
+}
