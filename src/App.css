@@ -157,7 +157,7 @@ body, html {
   opacity: 1;
 }
 
-/* PC配置 */
+/* PC配置（変更なし） */
 .img1 { width: 130px; top: 18%; left: 10%; z-index: 2; }
 .img2 { width: 160px; top: 12%; left: 40%; z-index: 1; }
 .img3 { width: 140px; top: 22%; right: 10%; z-index: 3; }
@@ -492,11 +492,10 @@ input:checked + .slider:before { transform: translateX(20px); }
    ========================================= */
 @media (max-width: 900px) {
   
-  /* ★倍率縮小(font-size設定)を削除し、元のサイズに戻しました★ */
-
-  /* --- 1. ヘッダー被り防止（設定は維持） --- */
+  /* --- 1. ヘッダー被り防止 --- */
   .app-header {
-    position: fixed;
+    /* Fixedをやめ、Stickyに戻すことで自然な位置関係を作る */
+    position: sticky;
     top: 0; left: 0;
     width: 100%;
     padding-top: env(safe-area-inset-top, 20px);
@@ -504,15 +503,15 @@ input:checked + .slider:before { transform: translateX(20px); }
     background: rgba(255, 255, 255, 0.98);
   }
 
-  /* コンテンツを大きく押し下げる設定は維持 */
+  /* コンテンツの開始位置を戻す（余計な空白を削除） */
   .app-container {
     width: 94%;
-    padding-top: 240px; /* 倍率が戻ったので、このくらいの余白が必要になります */
-    margin-top: 0;
+    margin-top: 20px; /* 自然なマージンに戻す */
+    padding-top: 0;
     padding-bottom: 50px;
   }
 
-  /* --- 2. ウェルカム画面の写真配置（少し右へ微調整） --- */
+  /* --- 2. ウェルカム画面の写真配置（右へずらす） --- */
   .welcome-screen {
     flex-direction: column;
     padding: 20px;
@@ -529,6 +528,9 @@ input:checked + .slider:before { transform: translateX(20px); }
     flex: 0 0 auto;
   }
   
+  .welcome-title { font-size: 2.2rem; }
+
+  /* ギャラリーエリア */
   .hero-gallery-container {
     height: 350px;
     width: 100%;
@@ -538,13 +540,13 @@ input:checked + .slider:before { transform: translateX(20px); }
   
   .gallery-img { width: 95px; border-width: 3px; }
 
-  /* ★全体的に少し右にずらしました★ */
-  /* 左上 */
-  .img1 { top: 0; left: 12%; transform: rotate(-6deg); }
-  /* 右上 */
-  .img2 { top: 10%; right: 2%; transform: rotate(6deg); }
-  /* 中央下 */
-  .img3 { bottom: 10%; left: 40%; transform: rotate(-3deg); }
+  /* ★全体的に「右」へずらしました★ */
+  /* 左上 (少し右へ) */
+  .img1 { top: 0; left: 20%; transform: rotate(-6deg); }
+  /* 右上 (さらに右へ) */
+  .img2 { top: 10%; right: -5%; transform: rotate(6deg); }
+  /* 中央下 (右寄りへ) */
+  .img3 { bottom: 10%; left: 50%; transform: rotate(-3deg); }
   
   .img4, .img5, .img6, .img7, .img8, .img9, .img10 { display: none; }
 
