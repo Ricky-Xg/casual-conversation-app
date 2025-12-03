@@ -64,7 +64,6 @@ body, html {
   top: 0; left: 0;
   width: 100%;
   height: 100vh;
-  /* スマホのアドレスバー対策 */
   height: 100dvh; 
   background-color: #fff;
   display: flex;
@@ -158,7 +157,7 @@ body, html {
   opacity: 1;
 }
 
-/* PC配置（変更なし） */
+/* PC配置 */
 .img1 { width: 130px; top: 18%; left: 10%; z-index: 2; }
 .img2 { width: 160px; top: 12%; left: 40%; z-index: 1; }
 .img3 { width: 140px; top: 22%; right: 10%; z-index: 3; }
@@ -489,16 +488,13 @@ input:checked + .slider:before { transform: translateX(20px); }
 
 /* =========================================
    5. スマホ・レスポンシブ対応（最終調整版）
-   ★ここが画角・配置修正のポイントです★
+   ★ここが修正ポイントです★
    ========================================= */
 @media (max-width: 900px) {
   
-  /* --- 1. スマホだけ全体を少し縮小（85%）して「引き」の画角にする --- */
-  html {
-    font-size: 13.5px; /* PCは16px基準なので、これで全体が約85%のサイズ感になります */
-  }
+  /* ★倍率縮小(font-size設定)を削除し、元のサイズに戻しました★ */
 
-  /* --- 2. ヘッダー被り防止 --- */
+  /* --- 1. ヘッダー被り防止（設定は維持） --- */
   .app-header {
     position: fixed;
     top: 0; left: 0;
@@ -508,15 +504,15 @@ input:checked + .slider:before { transform: translateX(20px); }
     background: rgba(255, 255, 255, 0.98);
   }
 
-  /* コンテンツを「ヘッダー高さ + 余裕」分だけガッツリ下げる */
+  /* コンテンツを大きく押し下げる設定は維持 */
   .app-container {
     width: 94%;
-    padding-top: 240px; /* ここを大きく確保して被りを防ぐ */
+    padding-top: 240px; /* 倍率が戻ったので、このくらいの余白が必要になります */
     margin-top: 0;
     padding-bottom: 50px;
   }
 
-  /* --- 3. ウェルカム画面の写真配置（重ならない版） --- */
+  /* --- 2. ウェルカム画面の写真配置（少し右へ微調整） --- */
   .welcome-screen {
     flex-direction: column;
     padding: 20px;
@@ -533,9 +529,8 @@ input:checked + .slider:before { transform: translateX(20px); }
     flex: 0 0 auto;
   }
   
-  /* ギャラリーエリア */
   .hero-gallery-container {
-    height: 350px; /* 十分な高さを確保 */
+    height: 350px;
     width: 100%;
     margin-top: 20px;
     flex: 0 0 auto;
@@ -543,15 +538,14 @@ input:checked + .slider:before { transform: translateX(20px); }
   
   .gallery-img { width: 95px; border-width: 3px; }
 
-  /* 写真を「逆三角形（▽）」っぽく配置して距離を取る */
+  /* ★全体的に少し右にずらしました★ */
   /* 左上 */
-  .img1 { top: 0; left: 5%; transform: rotate(-6deg); }
+  .img1 { top: 0; left: 12%; transform: rotate(-6deg); }
   /* 右上 */
-  .img2 { top: 10%; right: 5%; transform: rotate(6deg); }
+  .img2 { top: 10%; right: 2%; transform: rotate(6deg); }
   /* 中央下 */
-  .img3 { bottom: 10%; left: 35%; transform: rotate(-3deg); }
+  .img3 { bottom: 10%; left: 40%; transform: rotate(-3deg); }
   
-  /* スマホでは3枚以外は隠す（ごちゃごちゃ防止） */
   .img4, .img5, .img6, .img7, .img8, .img9, .img10 { display: none; }
 
   /* --- その他調整 --- */
