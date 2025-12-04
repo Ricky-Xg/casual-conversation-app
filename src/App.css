@@ -485,16 +485,13 @@ input:checked + .slider:before { transform: translateX(20px); }
   color: #94a3b8;
 }
 .placeholder-text { font-size: 1.1rem; font-weight: 700; }
-
 /* =========================================
-   5. スマホ・レスポンシブ対応（最終調整版）
-   ★ここが修正ポイントです★
+   5. スマホ・レスポンシブ対応（修正版）
    ========================================= */
 @media (max-width: 900px) {
   
-  /* --- 1. ヘッダー被り防止 --- */
+  /* --- 1. ヘッダー調整 --- */
   .app-header {
-    /* Fixedをやめ、Stickyに戻すことで自然な位置関係を作る */
     position: sticky;
     top: 0; left: 0;
     width: 100%;
@@ -503,51 +500,98 @@ input:checked + .slider:before { transform: translateX(20px); }
     background: rgba(255, 255, 255, 0.98);
   }
 
-  /* コンテンツの開始位置を戻す（余計な空白を削除） */
+  /* コンテンツ幅の調整 */
   .app-container {
-    width: 94%;
-    margin-top: 20px; /* 自然なマージンに戻す */
+    width: 90%; /* 94%から少し余裕を持たせる */
+    margin: 20px auto;
     padding-top: 0;
     padding-bottom: 50px;
   }
 
-  /* --- 2. ウェルカム画面の写真配置（右へずらす） --- */
+  /* --- 2. ウェルカム画面（配置修正） --- */
   .welcome-screen {
     flex-direction: column;
     padding: 20px;
     height: auto;
     min-height: 100dvh;
-    justify-content: flex-start;
+    justify-content: center; /* 上下に間延びしないよう中央寄せ */
+    align-items: center;
   }
 
   .hero-text-section {
     padding-left: 0;
+    /* ★修正: PC版の右パディングをリセットして中央揃えを修正 */
+    padding-right: 0; 
     text-align: center;
-    margin-bottom: 10px;
-    padding-top: 60px;
+    margin-bottom: 30px;
+    padding-top: 80px; /* ヘッダー分少し下げる */
     flex: 0 0 auto;
-  }
-  
-  .welcome-title { font-size: 2.2rem; }
-
-  /* ギャラリーエリア */
-  .hero-gallery-container {
-    height: 350px;
     width: 100%;
-    margin-top: 20px;
-    flex: 0 0 auto;
   }
   
-  .gallery-img { width: 95px; border-width: 3px; }
-
-  /* ★全体的に「右」へずらしました★ */
-  /* 左上 (少し右へ) */
-  .img1 { top: 0; left: 20%; transform: rotate(-6deg); }
-  /* 右上 (さらに右へ) */
-  .img2 { top: 10%; right: -5%; transform: rotate(6deg); }
-  /* 中央下 (右寄りへ) */
-  .img3 { bottom: 10%; left: 50%; transform: rotate(-3deg); }
+  .welcome-title { 
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
   
+  .welcome-subtitle {
+    font-size: 0.95rem;
+    padding: 0 10px; /* テキストが画面端にくっつかないように */
+  }
+
+  /* --- 3. ギャラリーエリア（重なり修正） --- */
+  .hero-gallery-container {
+    height: 380px; /* 少し高さを確保して重なりを防ぐ */
+    width: 100%;
+    margin-top: 0;
+    flex: 0 0 auto;
+    position: relative;
+    /* ギャラリー全体がはみ出さないように */
+    overflow: visible; 
+  }
+  
+  /* 画像の基本サイズを少し大きくして見やすく */
+  .gallery-img { 
+    width: 130px; 
+    border-width: 4px; 
+  }
+
+  /* ★配置の修正ロジック★
+     - img1: 左上
+     - img2: 右上
+     - img3: 中央下（手前）
+     これでバランス良く配置されます
+  */
+
+  /* 左上の画像 */
+  .img1 { 
+    top: 10px; 
+    left: 5%; 
+    transform: rotate(-8deg); 
+    z-index: 2;
+  }
+
+  /* 右上の画像 */
+  .img2 { 
+    top: 30px; 
+    right: 5%; /* 画面外にはみ出さないよう right 指定 */
+    left: auto; /* PC版のleft指定を打ち消し */
+    transform: rotate(8deg); 
+    z-index: 1;
+  }
+
+  /* 中央下の画像（これをメインにする） */
+  .img3 { 
+    top: auto;
+    bottom: 20px; 
+    left: 50%; /* 親要素の真ん中 */
+    /* 自身の幅の半分だけ左に戻して「完全中央」にする */
+    transform: translateX(-50%) rotate(-3deg); 
+    z-index: 10; /* 一番手前に表示 */
+    width: 150px; /* メインなので少し大きく */
+  }
+  
+  /* スマホでは不要な画像は非表示 */
   .img4, .img5, .img6, .img7, .img8, .img9, .img10 { display: none; }
 
   /* --- その他調整 --- */
