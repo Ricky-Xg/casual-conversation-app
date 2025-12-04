@@ -486,60 +486,59 @@ input:checked + .slider:before { transform: translateX(20px); }
 }
 .placeholder-text { font-size: 1.1rem; font-weight: 700; }
 /* =========================================
-   5. スマホ・レスポンシブ対応（修正版）
+   5. スマホ・レスポンシブ対応（完成版）
    ========================================= */
 @media (max-width: 900px) {
   
-  /* --- 1. ヘッダー調整（自然な配置に戻す） --- */
+  /* --- 1. ヘッダー調整 --- */
   .app-header {
-    /* ★修正: fixedをやめてstickyに戻す */
-    position: sticky; 
+    position: sticky; /* スクロールに合わせて吸着 */
     top: 0; left: 0;
     width: 100%;
     
+    /* ヘッダー自体の余白調整 */
     padding-top: env(safe-area-inset-top, 15px);
     padding-bottom: 10px;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0,0,0,0.05);
     z-index: 1000;
-    /* 影を薄くして圧迫感を減らす */
     box-shadow: 0 4px 15px rgba(0,0,0,0.03);
   }
 
   .app-header h2 {
-    font-size: 1.2rem; /* 少しだけ小さく */
+    font-size: 1.2rem;
     margin-bottom: 5px;
   }
 
   .header-controls {
     gap: 0.8rem;
-    /* コントロール全体を少しだけ縮小して高さを節約 */
     transform: scale(0.95);
   }
 
-  /* --- 2. コンテンツ調整（倍率・余白を元に戻す） --- */
+  /* --- 2. コンテンツ調整（ここがポイント） --- */
   .app-container {
     width: 92%; 
-    margin: 10px auto;
+    margin: 0 auto;
     
-    /* ★修正: stickyにしたので、無理なpaddingは不要。自然な余白に戻す */
-    padding-top: 0; 
-    padding-bottom: 80px;
+    /* ★修正: ヘッダーとの間に「20px」の余白を確保 */
+    /* これで一番上までスクロールした時に、要素がヘッダーに張り付かず綺麗に見えます */
+    padding-top: 20px; 
+    
+    /* 下の余白もたっぷりとって、一番下のカードも見やすく */
+    padding-bottom: 120px;
 
-    /* ★修正: zoom（縮小）を削除。元のサイズ感に戻す */
     zoom: normal;
   }
 
-  /* --- 3. カテゴリーボタン（横スクロール維持） --- */
-  /* ここは場所を取らないように横スクロールのままにします */
+  /* --- 3. カテゴリーボタン --- */
   .selection-section {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* カードとの間隔も少し広げて見やすく */
   }
   
   .selection-section h3 {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-size: 0.85rem;
     color: var(--text-light);
     text-align: center;
@@ -547,7 +546,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 
   .button-group {
     display: flex;
-    flex-wrap: nowrap; /* 横一列 */
+    flex-wrap: nowrap;
     overflow-x: auto;
     justify-content: flex-start;
     gap: 10px;
@@ -559,13 +558,12 @@ input:checked + .slider:before { transform: translateX(20px); }
 
   .button-group button {
     flex: 0 0 auto;
-    padding: 8px 16px;
+    padding: 8px 18px; /* ボタンも少し押しやすく調整 */
     font-size: 0.85rem;
   }
 
   /* --- 4. ウェルカム画面（維持） --- */
   .welcome-screen {
-    /* ウェルカム画面は全体を覆う必要があるのでfixedのまま */
     position: fixed;
     top: 0; left: 0;
     width: 100%;
