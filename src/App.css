@@ -490,49 +490,94 @@ input:checked + .slider:before { transform: translateX(20px); }
    ========================================= */
 @media (max-width: 900px) {
   
-  /* --- 1. ヘッダー調整 --- */
+  /* --- 1. ヘッダー調整（見切れ防止・コンパクト化） --- */
   .app-header {
     position: sticky;
     top: 0; left: 0;
     width: 100%;
-    padding-top: env(safe-area-inset-top, 20px);
+    /* 上部の余白を確保して見切れを防ぐ */
+    padding-top: max(20px, env(safe-area-inset-top)); 
+    padding-bottom: 10px;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     background: rgba(255, 255, 255, 0.98);
+    z-index: 1000; /* コンテンツより手前に表示 */
   }
 
-  /* コンテンツ幅の調整 */
+  .app-header h2 {
+    font-size: 1.4rem; /* タイトルを少し小さくして圧迫感を減らす */
+    margin-bottom: 5px;
+  }
+
+  .header-controls {
+    gap: 0.8rem;
+    transform: scale(0.95); /* コントロール全体を少し縮小 */
+  }
+
+  /* --- 2. コンテンツ幅とカテゴリー表示の調整 --- */
   .app-container {
-    width: 90%; 
-    margin: 20px auto;
+    width: 92%; 
+    margin: 10px auto; /* ヘッダーとの距離を調整 */
     padding-top: 0;
-    padding-bottom: 50px;
+    padding-bottom: 80px;
   }
 
-  /* --- 2. ウェルカム画面（上寄せ配置に変更） --- */
+  /* ★重要: カテゴリーボタンを横スクロールにして見えるようにする */
+  .selection-section {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .selection-section h3 {
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  .button-group {
+    display: flex;
+    flex-wrap: nowrap; /* 折り返さない（横一列） */
+    overflow-x: auto;  /* 横スクロールを有効に */
+    justify-content: flex-start;
+    gap: 10px;
+    padding-bottom: 10px; /* スクロールバー用の余白 */
+    padding-left: 5px;    /* 端っこが切れないように */
+    padding-right: 5px;
+    
+    /* スクロールを滑らかに */
+    -webkit-overflow-scrolling: touch; 
+    
+    /* スクロールバーを目立たなくする（オプション） */
+    scrollbar-width: none; /* Firefox */
+  }
+  .button-group::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .button-group button {
+    flex: 0 0 auto; /* ボタンが潰れないように固定 */
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* --- 3. ウェルカム画面（上寄せ配置・維持） --- */
   .welcome-screen {
     flex-direction: column;
     height: auto;
     min-height: 100dvh;
-    
-    /* ★修正: 中央揃え(center)をやめて、上揃え(flex-start)に変更 */
     justify-content: flex-start; 
     align-items: center;
-
-    /* ★修正: 上の余白を固定値で指定して、位置をコントロール */
     padding: 0 20px;
-    padding-top: 90px; /* ヘッダー下の程よい位置からスタート */
+    padding-top: 90px;
     padding-bottom: 40px;
+    position: relative;
+    z-index: 1001; /* ヘッダーより上にくるように念のため */
+    background-color: #fff; /* 背景色を確実に */
   }
 
   .hero-text-section {
-    padding-left: 0;
-    padding-right: 0; 
+    padding: 0;
     text-align: center;
-    
-    /* ★修正: 親要素で位置調整したので、ここの余白はなくして上に詰める */
-    padding-top: 0; 
-    margin-bottom: 20px; /* 画像との間隔を少し詰める */
-    
+    margin-bottom: 20px;
     flex: 0 0 auto;
     width: 100%;
   }
@@ -547,9 +592,9 @@ input:checked + .slider:before { transform: translateX(20px); }
     padding: 0 10px; 
   }
 
-  /* --- 3. ギャラリーエリア（サイズ微調整） --- */
+  /* --- 4. ギャラリーエリア（維持） --- */
   .hero-gallery-container {
-    height: 360px; /* 少しだけコンパクトにして上に寄せる */
+    height: 360px;
     width: 100%;
     margin-top: 0;
     flex: 0 0 auto;
@@ -562,29 +607,12 @@ input:checked + .slider:before { transform: translateX(20px); }
     border-width: 4px; 
   }
 
-  /* 画像配置（ロジックは維持） */
-  .img1 { 
-    top: 10px; 
-    left: 5%; 
-    transform: rotate(-8deg); 
-    z-index: 2;
-  }
-
-  .img2 { 
-    top: 30px; 
-    right: 5%; 
-    left: auto; 
-    transform: rotate(8deg); 
-    z-index: 1;
-  }
-
+  .img1 { top: 10px; left: 5%; transform: rotate(-8deg); z-index: 2; }
+  .img2 { top: 30px; right: 5%; left: auto; transform: rotate(8deg); z-index: 1; }
   .img3 { 
-    top: auto;
-    bottom: 20px; 
-    left: 50%; 
+    top: auto; bottom: 20px; left: 50%; 
     transform: translateX(-50%) rotate(-3deg); 
-    z-index: 10; 
-    width: 150px; 
+    z-index: 10; width: 150px; 
   }
   
   .img4, .img5, .img6, .img7, .img8, .img9, .img10 { display: none; }
@@ -593,6 +621,4 @@ input:checked + .slider:before { transform: translateX(20px); }
   .cards-grid { 
     grid-template-columns: 1fr; 
   }
-  
-  .header-controls { gap: 1rem; }
 }
