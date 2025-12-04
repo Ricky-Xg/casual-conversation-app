@@ -521,12 +521,12 @@ input:checked + .slider:before { transform: translateX(20px); }
     width: 92%; 
     margin: 0 auto;
     
-    /* ★修正: ヘッダーとの間に「20px」の余白を確保 */
-    /* これで一番上までスクロールした時に、要素がヘッダーに張り付かず綺麗に見えます */
-    padding-top: 20px; 
+    /* ★修正: 上の余白を大きく増やして可動域を確保 */
+    /* これで一番上のカードがヘッダーの下に隠れず、しっかり見えます */
+    padding-top: 100px; 
     
-    /* 下の余白もたっぷりとって、一番下のカードも見やすく */
-    padding-bottom: 120px;
+    /* 下の余白もさらに増やして、一番下のカードも見やすく */
+    padding-bottom: 150px;
 
     zoom: normal;
   }
