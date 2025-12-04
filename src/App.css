@@ -502,29 +502,37 @@ input:checked + .slider:before { transform: translateX(20px); }
 
   /* コンテンツ幅の調整 */
   .app-container {
-    width: 90%; /* 94%から少し余裕を持たせる */
+    width: 90%; 
     margin: 20px auto;
     padding-top: 0;
     padding-bottom: 50px;
   }
 
-  /* --- 2. ウェルカム画面（配置修正） --- */
+  /* --- 2. ウェルカム画面（上寄せ配置に変更） --- */
   .welcome-screen {
     flex-direction: column;
-    padding: 20px;
     height: auto;
     min-height: 100dvh;
-    justify-content: center; /* 上下に間延びしないよう中央寄せ */
+    
+    /* ★修正: 中央揃え(center)をやめて、上揃え(flex-start)に変更 */
+    justify-content: flex-start; 
     align-items: center;
+
+    /* ★修正: 上の余白を固定値で指定して、位置をコントロール */
+    padding: 0 20px;
+    padding-top: 90px; /* ヘッダー下の程よい位置からスタート */
+    padding-bottom: 40px;
   }
 
   .hero-text-section {
     padding-left: 0;
-    /* ★修正: PC版の右パディングをリセットして中央揃えを修正 */
     padding-right: 0; 
     text-align: center;
-    margin-bottom: 30px;
-    padding-top: 80px; /* ヘッダー分少し下げる */
+    
+    /* ★修正: 親要素で位置調整したので、ここの余白はなくして上に詰める */
+    padding-top: 0; 
+    margin-bottom: 20px; /* 画像との間隔を少し詰める */
+    
     flex: 0 0 auto;
     width: 100%;
   }
@@ -536,34 +544,25 @@ input:checked + .slider:before { transform: translateX(20px); }
   
   .welcome-subtitle {
     font-size: 0.95rem;
-    padding: 0 10px; /* テキストが画面端にくっつかないように */
+    padding: 0 10px; 
   }
 
-  /* --- 3. ギャラリーエリア（重なり修正） --- */
+  /* --- 3. ギャラリーエリア（サイズ微調整） --- */
   .hero-gallery-container {
-    height: 380px; /* 少し高さを確保して重なりを防ぐ */
+    height: 360px; /* 少しだけコンパクトにして上に寄せる */
     width: 100%;
     margin-top: 0;
     flex: 0 0 auto;
     position: relative;
-    /* ギャラリー全体がはみ出さないように */
     overflow: visible; 
   }
   
-  /* 画像の基本サイズを少し大きくして見やすく */
   .gallery-img { 
     width: 130px; 
     border-width: 4px; 
   }
 
-  /* ★配置の修正ロジック★
-     - img1: 左上
-     - img2: 右上
-     - img3: 中央下（手前）
-     これでバランス良く配置されます
-  */
-
-  /* 左上の画像 */
+  /* 画像配置（ロジックは維持） */
   .img1 { 
     top: 10px; 
     left: 5%; 
@@ -571,27 +570,23 @@ input:checked + .slider:before { transform: translateX(20px); }
     z-index: 2;
   }
 
-  /* 右上の画像 */
   .img2 { 
     top: 30px; 
-    right: 5%; /* 画面外にはみ出さないよう right 指定 */
-    left: auto; /* PC版のleft指定を打ち消し */
+    right: 5%; 
+    left: auto; 
     transform: rotate(8deg); 
     z-index: 1;
   }
 
-  /* 中央下の画像（これをメインにする） */
   .img3 { 
     top: auto;
     bottom: 20px; 
-    left: 50%; /* 親要素の真ん中 */
-    /* 自身の幅の半分だけ左に戻して「完全中央」にする */
+    left: 50%; 
     transform: translateX(-50%) rotate(-3deg); 
-    z-index: 10; /* 一番手前に表示 */
-    width: 150px; /* メインなので少し大きく */
+    z-index: 10; 
+    width: 150px; 
   }
   
-  /* スマホでは不要な画像は非表示 */
   .img4, .img5, .img6, .img7, .img8, .img9, .img10 { display: none; }
 
   /* --- その他調整 --- */
